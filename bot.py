@@ -21,7 +21,6 @@ async def main():
     subscription.register_handlers(subscription.router)
     platform.register_handlers(platform.router)
     back.register_handlers(back.router)
-    generate_key.register_handlers(generate_key.router)
 
     print("Бот запущен...")
     await dp.start_polling(bot)
