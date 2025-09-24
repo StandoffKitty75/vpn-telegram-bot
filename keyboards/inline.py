@@ -3,9 +3,13 @@ from localization import texts
 
 def language_keyboard():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=texts["ru"]["lang_ru"], callback_data="lang_ru")],
-        [InlineKeyboardButton(text=texts["en"]["lang_en"], callback_data="lang_en")],
-        [InlineKeyboardButton(text=texts["de"]["lang_de"], callback_data="lang_de")]
+        [
+            InlineKeyboardButton(text=texts["ru"]["lang_ru"], callback_data="lang_ru"),
+            InlineKeyboardButton(text=texts["en"]["lang_en"], callback_data="lang_en"),
+        ],
+        [
+            InlineKeyboardButton(text=texts["de"]["lang_de"], callback_data="lang_de"),
+        ]
     ])
 
 def subscription_keyboard(lang: str):
