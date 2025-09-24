@@ -20,11 +20,26 @@ def subscription_keyboard(lang: str):
     ])
 
 def platform_keyboard(lang: str):
-    # Экран выбора платформ → Назад к языку
-    return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=btn, callback_data=f"platform_{btn.lower()}")]
-        for btn in texts[lang]["platforms"]
-    ] + [[InlineKeyboardButton(text=texts[lang]["back"], callback_data="back_lang")]])
+    # Берём список платформ из локализации
+    platforms = texts[lang]["platforms"]
+
+    # Разбиваем на пары по 2 кнопки
+    rows = [
+        [
+            InlineKeyboardButton(text=platforms[i], callback_data=f"platform_{platforms[i].lower()}"),
+            InlineKeyboardButton(text=platforms[i+1], callback_data=f"platform_{platforms[i+1].lower()}")
+        ]
+        for i in range(0, len(platforms) - 1, 2)
+    ]
+
+    # Если число платформ нечётное → последнюю кнопку в отдельной строке
+    if len(platforms) % 2 != 0:
+        rows.append([InlineKeyboardButton(text=platforms[-1], callback_data=f"platform_{platforms[-1].lower()}")])
+
+    # Добавляем кнопку "Назад"
+    rows.append([InlineKeyboardButton(text=texts[lang]["back"], callback_data="back_lang")])
+
+    return InlineKeyboardMarkup(inline_keyboard=rows)
 
 def plan_keyboard(lang: str):
     # Экран выбора плана → Назад к платформам
