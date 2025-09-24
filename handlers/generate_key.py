@@ -15,7 +15,7 @@ router = Router()
 # Файл для хранения ключей
 KEYS_FILE = "keys.json"
 
-# Загружаем сохранённые ключи (структура: {user_id: {"key": <url>, "username": <username_or_empty>}})
+# Загружаем сохранённые ключи
 if os.path.exists(KEYS_FILE):
     with open(KEYS_FILE, "r", encoding="utf-8") as f:
         try:
@@ -30,28 +30,47 @@ def save_keys():
     with open(KEYS_FILE, "w", encoding="utf-8") as f:
         json.dump(user_keys, f, indent=4, ensure_ascii=False)
 
+def outline_key_exists(key_url: str) -> bool:
+    """
+    Проверяет, существует ли ключ на Outline сервере.
+    """
+    try:
+        response = requests.get(f"{OUTLINE_API_URL}/access-keys", verify=False)
+        response.raise_for_status()
+        keys = response.json().get("accessKeys", [])
+        return any(key.get("accessUrl") + "#KT_VPN" == key_url for key in keys)
+    except Exception:
+        return False
+
 @router.message(F.text == "/key")
 async def generate_outline_key(message: Message):
     """
-    Выдача ключа: если ключ уже есть — возвращаем сохранённый,
-    иначе генерируем новый через Outline API, сохраняем и возвращаем.
+    Выдача ключа: если ключ уже есть и он есть на сервере —
+    возвращаем его. Если на сервере его нет — создаём новый.
     """
     user_id = str(message.from_user.id)
     lang = user_langs.get(message.from_user.id, "en")
     username = message.from_user.username or ""
 
-    # Если ключ уже есть — возвращаем его
+    # Если ключ уже есть — проверяем его на сервере
     if user_id in user_keys and "key" in user_keys[user_id]:
         existing = user_keys[user_id]["key"]
-        response_text = texts[lang].get("key_exists",
-                                       "🔑 Вы уже имеете ключ:\n`{key}`").format(
-            key=existing,
-            username=username or message.from_user.id
-        )
-        await message.answer(response_text, parse_mode="Markdown")
-        return
+        if outline_key_exists(existing):
+            response_text = texts[lang].get(
+                "key_exists",
+                "🔑 Вы уже имеете ключ:\n`{key}`"
+            ).format(
+                key=existing,
+                username=username or message.from_user.id
+            )
+            await message.answer(response_text, parse_mode="Markdown")
+            return
+        else:
+            # Ключа больше нет на сервере → убираем из памяти
+            user_keys.pop(user_id)
+            save_keys()
 
-    # Иначе — генерируем новый ключ через Outline API
+    # Генерируем новый ключ через Outline API
     url = f"{OUTLINE_API_URL}/access-keys"
     headers = {"Content-Type": "application/json"}
     data = {
@@ -67,7 +86,6 @@ async def generate_outline_key(message: Message):
         key_url = access_url + "#KT_VPN" if access_url else None
 
         if key_url:
-            # Сохраняем в структуре и на диск
             user_keys[user_id] = {
                 "key": key_url,
                 "username": username
@@ -130,6 +148,7 @@ async def reset_key(message: Message):
         else:
             await message.answer(f"❌ У пользователя {target_id} не найден сохранённый ключ.")
             return
+
     # Если username (с @ или без)
     if target.startswith("@"):
         target = target[1:]
@@ -147,5 +166,4 @@ async def reset_key(message: Message):
         await message.answer(f"✅ Ключ для пользователя @{target} (ID {found_user_id}) сброшен.")
         return
 
-    # Если не нашли — сообщаем
     await message.answer(f"❌ Не найден пользователь с username @{target} или id {target}.")
