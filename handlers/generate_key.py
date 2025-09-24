@@ -31,7 +31,7 @@ async def generate_outline_key(message: Message):
         response.raise_for_status()
 
         key_data = response.json()
-        key_url = key_data.get("accessUrl")
+        key_url = key_data.get("accessUrl") + "#KT_VPN"
 
         if key_url:
             # Форматируем ответ для лучшей читаемости
