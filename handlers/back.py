@@ -6,7 +6,7 @@ from state import user_langs
 
 router = Router()
 
-# Назад → к выбору языка
+# Назад → к выбору языка (для подписки и платформы)
 async def go_back_lang(callback: CallbackQuery):
     await callback.message.edit_text(
         texts["en"]["start"],
@@ -18,11 +18,11 @@ async def go_back_sub(callback: CallbackQuery):
     lang = user_langs.get(callback.from_user.id, "en")
 
     await callback.message.edit_text(
-        texts[lang]["start"],
+        texts[lang]["welcome"],
         reply_markup=subscription_keyboard(lang)
     )
 
-# Назад → к платформам
+# Назад → к выбору платформ (с экрана тарифов)
 async def go_back_platform(callback: CallbackQuery):
     lang = user_langs.get(callback.from_user.id, "en")
 
