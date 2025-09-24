@@ -1,0 +1,1 @@
+user_langs = {}  # {user_id: "ru" или "en"}
