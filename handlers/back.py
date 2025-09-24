@@ -1,6 +1,6 @@
 from aiogram import Router, F
 from aiogram.types import CallbackQuery
-from keyboards.inline import language_keyboard, subscription_keyboard, platform_keyboard
+from keyboards.inline import language_keyboard, subscription_keyboard, platform_keyboard, plan_keyboard
 from localization import texts
 from state import user_langs
 
@@ -18,7 +18,7 @@ async def go_back_sub(callback: CallbackQuery):
     lang = user_langs.get(callback.from_user.id, "en")
 
     await callback.message.edit_text(
-        texts[lang]["welcome"],
+        texts[lang]["start"],
         reply_markup=subscription_keyboard(lang)
     )
 
