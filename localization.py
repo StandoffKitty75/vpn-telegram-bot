@@ -13,7 +13,7 @@ texts = {
         # Кнопки
         "lang_ru": "🇷🇺 Русский",
         "lang_en": "🇺🇸 English",
-        "lang_de": " Deutsch",
+        "lang_de": "🇩🇪 Deutsch",
         "buy_sub": "💸 Купить подписку",
         "back": "⬅ Назад",
         "platforms": ["📱 Android", "🍎 iPhone", "🖥 Windows", "💻 Mac"],
@@ -56,7 +56,7 @@ texts = {
         # Кнопки
         "lang_ru": "🇷🇺 Russian",
         "lang_en": "🇺🇸 English",
-        "lang_de": " Deutsch",
+        "lang_de": "🇩🇪 Deutsch",
         "buy_sub": "💸 Buy subscription",
         "back": "⬅ Back",
         "platforms": ["📱 Android", "🍎 iPhone", "🖥 Windows", "💻 Mac"],
@@ -99,7 +99,7 @@ texts = {
         # Кнопки
         "lang_ru": "🇷🇺 Russian",
         "lang_en": "🇺🇸 English",
-        "lang_de": " Deutsch",
+        "lang_de": "🇩🇪 Deutsch",
         "buy_sub": "💸 Abonnement kaufen",
         "back": "⬅ Zurück",
         "platforms": ["📱 Android", "🍎 iPhone", "🖥 Windows", "💻 Mac"],
