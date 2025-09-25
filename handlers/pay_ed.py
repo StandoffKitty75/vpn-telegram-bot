@@ -34,6 +34,6 @@ async def successful_payment(message: Message):
     # total_amount — в "минимальных единицах"
     total_amount = message.successful_payment.total_amount
     # пробуем посчитать звёзды: делим на 100 (популярный вариант)
-    stars = total_amount // 100
+    stars = total_amount
     await message.answer(f"✅ Оплата прошла успешно — вы заплатили {stars}⭐. Спасибо!")
     # Здесь можно: пометить пользователя как оплатившего и выдавать ключ/подписку
