@@ -8,7 +8,7 @@ router = Router()
 bot = Bot(token=TOKEN)
 
 # Пример: 100 Stars -> amount = 100 * 100 = 10000 (проверь в тесте)
-PRICES = [LabeledPrice(label="Krying Team VPN — subscription (100⭐)", amount=2500000)]
+PRICES = [LabeledPrice(label="Krying Team VPN — subscription (100⭐)", amount=10)]
 
 @router.message(F.text == "/pay_ed")
 async def pay_ed(message: Message):
