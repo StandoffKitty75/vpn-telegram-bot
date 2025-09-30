@@ -1,8 +1,9 @@
 from aiogram import Router, F
 from aiogram.types import CallbackQuery
-from keyboards.inline import platform_keyboard, plan_keyboard, InlineKeyboardMarkup, InlineKeyboardButton
+from keyboards.inline import InlineKeyboardMarkup, InlineKeyboardButton
 from localization import texts
 from state import user_langs
+from aiogram import Bot
 
 router = Router()
 
@@ -20,12 +21,12 @@ async def choose_payment_method(callback: CallbackQuery):
         reply_markup=keyboard
     )
 
-# Экран: выбор срока подписки (после метода оплаты)
+# Экран: выбор срока подписки
 async def choose_plan(callback: CallbackQuery):
     lang = user_langs.get(callback.from_user.id, "en")
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=texts[lang]["plan_stars"][0][0], callback_data=texts[lang]["plan_stars"][0][1])],
+        [InlineKeyboardButton(text=texts[lang]["plan_stars"][0][0], callback_data="plan_month_stars")],
         [InlineKeyboardButton(text=texts[lang]["back"], callback_data="back_payment")]
     ])
 
