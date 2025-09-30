@@ -41,6 +41,14 @@ texts = {
         "key_http_error": "❌ HTTP ошибка: {status}",
         "key_request_error": "❌ Ошибка при генерации ключа: {error}",
         "key_unexpected_error": "❌ Неожиданная ошибка: {error}",
+
+        "payment_method": "Хорошо, теперь выберите удобный Вам способ оплаты",
+        "payment_success": "✅ Оплата прошла успешно! Теперь выберите устройство:",
+        "choose_plan": "Выберите план подписки",
+
+        # Кнопки
+        "pay_telegram": "⭐️ Telegram Stars",
+        "plan_stars": [("На 1 месяц - 250 Stars", "plan_month_stars")],
     },
     "en": {
         # Сообщения
@@ -84,6 +92,14 @@ texts = {
         "key_http_error": "❌ HTTP error: {status}",
         "key_request_error": "❌ Error while generating key: {error}",
         "key_unexpected_error": "❌ Unexpected error: {error}",
+
+        "payment_method": "Okay, now select a convenient payment method",
+        "payment_success": "✅ Payment successful! Now select your device:",
+        "choose_plan": "Choose a subscription plan",
+
+        # Buttons
+        "pay_telegram": "⭐️ Telegram Stars",
+        "plan_stars": [("1 month - 250 Stars", "plan_month_stars")],
     },
     "de": {
         # Сообщения
@@ -127,5 +143,13 @@ texts = {
         "key_http_error": "❌ HTTP-Fehler: {status}",
         "key_request_error": "❌ Fehler beim Generieren des Schlüssels: {error}",
         "key_unexpected_error": "❌ Unerwarteter Fehler: {error}",
+
+        "payment_method": "Okay, wählen Sie nun eine bequeme Zahlungsmethode",
+        "payment_success": "✅ Zahlung erfolgreich! Wählen Sie nun Ihr Gerät:",
+        "choose_plan": "Wählen Sie ein Abonnement",
+
+        # Buttons
+        "pay_telegram": "⭐️ Telegram Stars",
+        "plan_stars": [("1 Monat - 250 Stars", "plan_month_stars")],
         }
 }
