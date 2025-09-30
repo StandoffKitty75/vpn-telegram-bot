@@ -9,6 +9,7 @@ from keyboards.inline import platform_keyboard
 router = Router()
 bot = Bot(token=TOKEN)
 
+PRICES = [LabeledPrice(label="Krying Team VPN — subscription (100⭐)", amount=10)]
 
 # --- Хендлер: выставляем счёт на 250 Stars ---
 @router.callback_query(F.data == "plan_month_stars")
@@ -26,10 +27,9 @@ async def send_invoice(callback: CallbackQuery):
         description="Subscription — pay with Telegram Stars",
         provider_token="",         # Stars не требуют токен
         currency="XTR",            # Stars = XTR
-        prices=[LabeledPrice(label="1 month VPN", amount=250)],  # 250 Stars
+        prices=PRICES,  # 250 Stars
         start_parameter="vpn_month_stars",
         payload=f"vpn_month_stars_user_{callback.from_user.id}",
-        reply_markup=back_keyboard
     )
 
 
