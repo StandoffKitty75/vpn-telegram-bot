@@ -1,7 +1,8 @@
 import asyncio
 from aiogram import Bot, Dispatcher
 from config import TOKEN
-from handlers import start, language, subscription, platform, back, generate_key, pay_ed
+from handlers import start, language, subscription, platform, back, generate_key, pay_ed, payment
+
 
 async def main():
     bot = Bot(token=TOKEN)
@@ -15,6 +16,7 @@ async def main():
     dp.include_router(back.router)
     dp.include_router(generate_key.router)
     dp.include_router(pay_ed.router)   # <-- новый роутер для оплаты
+    dp.include_router(payment.router)
 
     # Регистрируем хендлеры
     start.register_handlers(start.router)
