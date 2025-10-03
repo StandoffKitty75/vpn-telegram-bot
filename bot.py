@@ -17,7 +17,6 @@ async def main():
     dp.include_router(generate_key.router)
     dp.include_router(pay_ed.router)   # <-- новый роутер для оплаты
     dp.include_router(payment.router)
-    dp.include_router(circle.router)
 
     # Регистрируем хендлеры
     start.register_handlers(start.router)
@@ -25,7 +24,6 @@ async def main():
     subscription.register_handlers(subscription.router)
     platform.register_handlers(platform.router)
     back.register_handlers(back.router)
-    circle.register_handlers(circle.router)
 
     print("Бот запущен...")
     await dp.start_polling(bot)
