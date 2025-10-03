@@ -43,7 +43,7 @@ async def handle_video(message: Message):
             ffmpeg_cmd = [
                 "ffmpeg",
                 "-i", input_path,
-                "-vf", "scale=640:640:force_original_aspect_ratio=decrease,pad=640:640:(ow-iw)/2:(oh-ih)/2,format=yuv720p",
+                "-vf", "scale=640:640:force_original_aspect_ratio=decrease,pad=640:640:(ow-iw)/2:(oh-ih)/2,format=yuv420p",
                 "-c:v", "libx264",
                 "-profile:v", "baseline",
                 "-level", "3.0",
