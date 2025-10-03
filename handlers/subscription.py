@@ -3,7 +3,6 @@ from aiogram.types import CallbackQuery
 from keyboards.inline import InlineKeyboardMarkup, InlineKeyboardButton
 from localization import texts
 from state import user_langs
-from aiogram import Bot
 
 router = Router()
 
