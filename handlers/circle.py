@@ -29,24 +29,24 @@ async def handle_video(message: Message):
     try:
         # Отправляем чат-экшен "загрузка кружка"
         async with ChatActionSender.upload_video_note(chat_id=message.chat.id, bot=message.bot):
+            # Используем file_id видео для создания video_note
             await message.bot.send_video_note(
                 chat_id=message.chat.id,
                 video_note=message.video.file_id,
-                duration=message.video.duration,
-                length=360
+                length=360  # Размер кружочка (квадратное видео)
             )
+        print(f"Video note sent for user {user_id}")
 
     except Exception as e:
-        await message.answer(f"Произошла ошибка при создании кружочка: {str(e)}")
+        error_msg = f"Произошла ошибка при создании кружочка: {str(e)}"
+        print(error_msg)
+        await message.answer(error_msg)
 
     finally:
+        # Убираем пользователя из режима в любом случае
         user_circle_mode.discard(user_id)
 
 
 @router.message(F.video_note)
 async def handle_video_note(message: Message):
     await message.answer("Это уже кружочек 😉 Пришли обычное видео после команды /circle.")
-
-# УДАЛИТЕ эту функцию полностью - она не нужна
-# def register_handlers(router_obj: Router):
-#     router_obj.include_router(router)
