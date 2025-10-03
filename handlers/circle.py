@@ -47,7 +47,7 @@ async def handle_video(message: Message):
                 "-c:v", "libx264",
                 "-profile:v", "baseline",
                 "-level", "3.0",
-                "-an",  # отключаем аудио
+                #"-an",  # отключаем аудио
                 "-movflags", "+faststart",
                 output_path
             ]
