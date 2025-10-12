@@ -4,7 +4,7 @@ from aiogram.types import Message
 router = Router()
 
 # 🎯 Настройки
-SOURCE_CHANNEL_ID = -1002633016359
+SOURCE_CHANNEL_ID = -1002926151019
 TARGET_GROUP_ID = -1003170930613
 LOG_GROUP_ID = -1003170930613
 
