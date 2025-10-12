@@ -23,10 +23,6 @@ async def cmd_circle(message: Message):
 async def handle_video(message: Message):
     user_id = message.from_user.id
 
-    if user_id not in user_circle_mode:
-        await message.answer("Сначала используй команду /circle.")
-        return
-
     # Создаем временную папку для файлов
     with tempfile.TemporaryDirectory() as tmp_dir:
         try:
