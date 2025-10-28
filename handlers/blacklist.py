@@ -29,7 +29,7 @@ def save_blacklist(data):
 # ----------------
 # Добавить в ЧС (в стиле твоего рабочего примера)
 # ----------------
-@router.message(F.text.startswith("/addblock"))
+@router.message(F.text == "/addblock")
 async def addblock(message: Message):
     # только админ может
     if message.from_user.id != ADMIN_ID:
@@ -60,7 +60,7 @@ async def addblock(message: Message):
 # ----------------
 # Убрать из ЧС
 # ----------------
-@router.message(F.text.startswith("/unblock"))
+@router.message(F.text == "/unblock")
 async def unblock(message: Message):
     if message.from_user.id != ADMIN_ID:
         await message.reply("⛔ У тебя нет прав использовать эту команду.")
