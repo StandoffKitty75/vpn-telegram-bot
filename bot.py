@@ -4,7 +4,7 @@ from config import TOKEN
 from handlers import (
     start, language, subscription, platform,
     back, generate_key, pay_ed, payment,
-    circle, forwarder, blacklist   # 👈 добавили сюда blacklist
+    circle, forwarder, blacklist, tg_profile   # 👈 добавили сюда blacklist
 )
 
 
@@ -24,6 +24,7 @@ async def main():
     dp.include_router(circle.router)
     dp.include_router(forwarder.router)
     dp.include_router(blacklist.router)  # 👈 добавили подключение нового роутера
+    dp.include_router(tg_profile.router)  # 👈 подключаем новый роутер
 
     # Регистрируем хендлеры
     start.register_handlers(start.router)
