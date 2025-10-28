@@ -1,7 +1,9 @@
-from aiogram import Router, types, F
-from aiogram.filters import Command
+# handlers/blacklist.py
+from aiogram import Router, F
+from aiogram.types import Message
 import json
 import os
+from config import ADMIN_ID  # добавь ADMIN_ID в config.py
 
 router = Router()
 
@@ -24,39 +26,77 @@ def save_blacklist(data):
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
-@router.message(Command("addblock"))
-async def add_to_blacklist(message: types.Message):
-    """Команда /addblock <telegram_id> — добавляет пользователя в чёрный список"""
-    # Проверяем, есть ли аргумент
-    args = message.text.split()
-    if len(args) < 2:
-        await message.answer("❌ Укажи Telegram ID: /addblock <telegram_id>")
+# ----------------
+# Добавить в ЧС (в стиле твоего рабочего примера)
+# ----------------
+@router.message(F.text.startswith("/addblock"))
+async def addblock(message: Message):
+    # только админ может
+    if message.from_user.id != ADMIN_ID:
+        await message.reply("⛔ У тебя нет прав использовать эту команду.")
+        return
+
+    parts = message.text.split(maxsplit=1)
+    if len(parts) < 2 or not parts[1].strip():
+        await message.reply("❌ Укажи Telegram ID: /addblock <telegram_id>")
         return
 
     try:
-        user_id = int(args[1])
+        user_id = int(parts[1].strip())
     except ValueError:
-        await message.answer("❌ ID должен быть числом.")
+        await message.reply("❌ ID должен быть числом.")
         return
 
     blacklist = load_blacklist()
     if user_id in blacklist:
-        await message.answer("⚠️ Этот пользователь уже в чёрном списке.")
+        await message.reply("⚠️ Пользователь уже в чёрном списке.")
         return
 
     blacklist.append(user_id)
     save_blacklist(blacklist)
-    await message.answer(f"✅ Пользователь `{user_id}` добавлен в чёрный список.", parse_mode="Markdown")
+    await message.reply(f"✅ Пользователь `{user_id}` добавлен в чёрный список.", parse_mode="Markdown")
 
 
-@router.message(Command("start"))
-async def start_command(message: types.Message):
-    """Обрабатывает /start и проверяет пользователя"""
-    user_id = message.from_user.id
-    blacklist = load_blacklist()
-
-    if user_id in blacklist:
-        await message.answer("🚫 Ты заблокирован и не можешь использовать этого бота.")
+# ----------------
+# Убрать из ЧС
+# ----------------
+@router.message(F.text.startswith("/unblock"))
+async def unblock(message: Message):
+    if message.from_user.id != ADMIN_ID:
+        await message.reply("⛔ У тебя нет прав использовать эту команду.")
         return
 
-    await message.answer("👋 Привет! Добро пожаловать в бота.")
+    parts = message.text.split(maxsplit=1)
+    if len(parts) < 2 or not parts[1].strip():
+        await message.reply("❌ Укажи Telegram ID: /unblock <telegram_id>")
+        return
+
+    try:
+        user_id = int(parts[1].strip())
+    except ValueError:
+        await message.reply("❌ ID должен быть числом.")
+        return
+
+    blacklist = load_blacklist()
+    if user_id not in blacklist:
+        await message.reply("ℹ️ Пользователь не найден в чёрном списке.")
+        return
+
+    blacklist.remove(user_id)
+    save_blacklist(blacklist)
+    await message.reply(f"✅ Пользователь `{user_id}` удалён из чёрного списка.", parse_mode="Markdown")
+
+
+# ----------------
+# /start — проверка ЧС (в стиле F.text == "/start")
+# ----------------
+@router.message(F.text == "/start")
+async def start_command(message: Message):
+    user_id = message.from_user.id
+    blacklist = load_blacklist()
+    if user_id in blacklist:
+        await message.reply("🚫 Ты заблокирован и не можешь использовать этого бота.")
+        return
+
+    # если не в ЧС — стандартный привет
+    await message.reply("👋 Привет! Добро пожаловать в бота.")
