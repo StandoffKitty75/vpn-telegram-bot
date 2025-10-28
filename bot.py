@@ -1,7 +1,11 @@
 import asyncio
 from aiogram import Bot, Dispatcher
 from config import TOKEN
-from handlers import start, language, subscription, platform, back, generate_key, pay_ed, payment, circle, forwarder
+from handlers import (
+    start, language, subscription, platform,
+    back, generate_key, pay_ed, payment,
+    circle, forwarder, blacklist   # 👈 добавили сюда blacklist
+)
 
 
 async def main():
@@ -19,6 +23,7 @@ async def main():
     dp.include_router(payment.router)
     dp.include_router(circle.router)
     dp.include_router(forwarder.router)
+    dp.include_router(blacklist.router)  # 👈 добавили подключение нового роутера
 
     # Регистрируем хендлеры
     start.register_handlers(start.router)
@@ -29,6 +34,7 @@ async def main():
 
     print("Бот запущен...")
     await dp.start_polling(bot)
+
 
 if __name__ == "__main__":
     asyncio.run(main())
