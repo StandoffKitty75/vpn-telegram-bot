@@ -33,7 +33,6 @@ async def main():
     subscription.register_handlers(subscription.router)
     platform.register_handlers(platform.router)
     back.register_handlers(back.router)
-    echo.register_handlers(echo.router)  # 👈 регистрируем echo хендлеры
 
     print("Бот запущен...")
     await dp.start_polling(bot)
