@@ -4,6 +4,7 @@ from aiogram.types import Message
 
 router = Router()
 
-@router.message(Command("circle"))
-async def cmd_circle(message: Message):
-    await message.answer("Теперь пришли мне видео, и я сделаю из него кружочек 🎥")
+@router.message(Command("echo"))
+async def cmd_echo(message: Message):
+    """Простая команда для тестирования"""
+    await message.answer("📢 Это тестовый текст от бота!")
