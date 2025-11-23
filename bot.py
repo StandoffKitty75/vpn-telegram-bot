@@ -4,9 +4,9 @@ from config import TOKEN
 from handlers import (
     start, language, subscription, platform,
     back, generate_key, pay_ed, payment,
-    circle, forwarder, blacklist, tg_profile   # 👈 добавили сюда blacklist
+    circle, forwarder, blacklist, tg_profile,
+    echo  # 👈 добавляем импорт echo
 )
-
 
 async def main():
     bot = Bot(token=TOKEN)
@@ -23,8 +23,9 @@ async def main():
     dp.include_router(payment.router)
     dp.include_router(circle.router)
     dp.include_router(forwarder.router)
-    dp.include_router(blacklist.router)  # 👈 добавили подключение нового роутера
-    dp.include_router(tg_profile.router)  # 👈 подключаем новый роутер
+    dp.include_router(blacklist.router)
+    dp.include_router(tg_profile.router)
+    dp.include_router(echo.router)  # 👈 подключаем echo роутер
 
     # Регистрируем хендлеры
     start.register_handlers(start.router)
@@ -32,10 +33,10 @@ async def main():
     subscription.register_handlers(subscription.router)
     platform.register_handlers(platform.router)
     back.register_handlers(back.router)
+    echo.register_handlers(echo.router)  # 👈 регистрируем echo хендлеры
 
     print("Бот запущен...")
     await dp.start_polling(bot)
-
 
 if __name__ == "__main__":
     asyncio.run(main())
