@@ -42,7 +42,7 @@ def outline_key_exists(key_url: str) -> bool:
     except Exception:
         return False
 
-@router.message(F.text == "/key")
+@router.message(F.text == "/ehfwjbduiqhhwbniefbiojsaksh")
 async def generate_outline_key(message: Message):
     """
     Выдача ключа: если ключ уже есть и он есть на сервере —
