@@ -6,6 +6,7 @@ from state import user_langs
 
 router = Router()
 
+
 # Экран: выбор метода оплаты
 async def choose_payment_method(callback: CallbackQuery):
     lang = user_langs.get(callback.from_user.id, "en")
@@ -21,6 +22,7 @@ async def choose_payment_method(callback: CallbackQuery):
         reply_markup=keyboard
     )
 
+
 # Экран: выбор срока подписки
 async def choose_plan(callback: CallbackQuery):
     lang = user_langs.get(callback.from_user.id, "en")
@@ -35,13 +37,30 @@ async def choose_plan(callback: CallbackQuery):
         reply_markup=keyboard
     )
 
-# Обработчик для кнопки Bank Card
-async def bank_card_handler(callback: CallbackQuery):
-    # Вызываем функцию из circle.py
-    from handlers.circle import cmd_test
-    await cmd_test(callback.message)  # 👈 Вызываем функцию из circle.py
+
+# Экран: меню Bank Card [RU]
+async def bank_card_menu(callback: CallbackQuery):
+    lang = user_langs.get(callback.from_user.id, "en")
+
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=texts[lang]["back"], callback_data="back_to_payment_method")]
+    ])
+
+    await callback.message.edit_text(
+        "💳 Оплата банковской картой\n\n"
+        "Здесь будет информация об оплате банковской картой...",
+        reply_markup=keyboard
+    )
+
+
+# Обработчик для возврата к выбору метода оплаты
+async def back_to_payment_method(callback: CallbackQuery):
+    await choose_payment_method(callback)
+
 
 def register_handlers(router: Router):
     router.callback_query.register(choose_payment_method, F.data == "buy_sub")
     router.callback_query.register(choose_plan, F.data == "pay_telegram")
-    router.callback_query.register(bank_card_handler, F.data == "bank_card")  # 👈 Регистрируем обработчик
+    router.callback_query.register(bank_card_menu, F.data == "bank_card")  # 👈 Обработчик для Bank Card [RU]
+    router.callback_query.register(back_to_payment_method,
+                                   F.data == "back_to_payment_method")  # 👈 Обработчик для возврата
