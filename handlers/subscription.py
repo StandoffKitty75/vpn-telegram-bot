@@ -26,6 +26,7 @@ async def choose_plan(callback: CallbackQuery):
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=texts[lang]["plan_stars"][0][0], callback_data="plan_month_stars")],
+        [InlineKeyboardButton(text="Bank Card [RU]", callback_data="bank_card")],  # 👈 Добавляем кнопку Bank Card
         [InlineKeyboardButton(text=texts[lang]["back"], callback_data="back_payment")]
     ])
 
@@ -34,6 +35,13 @@ async def choose_plan(callback: CallbackQuery):
         reply_markup=keyboard
     )
 
+# Обработчик для кнопки Bank Card
+async def bank_card_handler(callback: CallbackQuery):
+    # Вызываем функцию из circle.py
+    from handlers.circle import cmd_test
+    await cmd_test(callback.message)  # 👈 Вызываем функцию из circle.py
+
 def register_handlers(router: Router):
     router.callback_query.register(choose_payment_method, F.data == "buy_sub")
     router.callback_query.register(choose_plan, F.data == "pay_telegram")
+    router.callback_query.register(bank_card_handler, F.data == "bank_card")  # 👈 Регистрируем обработчик
