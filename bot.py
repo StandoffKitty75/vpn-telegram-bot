@@ -3,9 +3,7 @@ from aiogram import Bot, Dispatcher
 from config import TOKEN
 from handlers import (
     start, language, subscription, platform,
-    back, generate_key, pay_ed, payment,
-    circle, forwarder, blacklist, tg_profile,
-    echo  # 👈 добавляем импорт echo
+    back, generate_key, pay_ed, payment, forwarder, echo
 )
 
 async def main():
@@ -21,11 +19,8 @@ async def main():
     dp.include_router(generate_key.router)
     dp.include_router(pay_ed.router)
     dp.include_router(payment.router)
-    dp.include_router(circle.router)
     dp.include_router(forwarder.router)
-    dp.include_router(blacklist.router)
-    dp.include_router(tg_profile.router)
-    dp.include_router(echo.router)  # 👈 подключаем echo роутер
+    dp.include_router(echo.router)
 
     # Регистрируем хендлеры
     start.register_handlers(start.router)
@@ -33,6 +28,7 @@ async def main():
     subscription.register_handlers(subscription.router)
     platform.register_handlers(platform.router)
     back.register_handlers(back.router)
+    echo.register_handlers(echo.router)
 
     print("Бот запущен...")
     await dp.start_polling(bot)
