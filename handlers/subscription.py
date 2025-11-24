@@ -12,6 +12,7 @@ async def choose_payment_method(callback: CallbackQuery):
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=texts[lang]["pay_telegram"], callback_data="pay_telegram")],
+        [InlineKeyboardButton(text="Bank Card [RU]", callback_data="bank_card")],  # 👈 Добавляем кнопку Bank Card
         [InlineKeyboardButton(text=texts[lang]["back"], callback_data="back_lang")]
     ])
 
@@ -26,7 +27,6 @@ async def choose_plan(callback: CallbackQuery):
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=texts[lang]["plan_stars"][0][0], callback_data="plan_month_stars")],
-        [InlineKeyboardButton(text="Bank Card [RU]", callback_data="bank_card")],  # 👈 Добавляем кнопку Bank Card
         [InlineKeyboardButton(text=texts[lang]["back"], callback_data="back_payment")]
     ])
 
