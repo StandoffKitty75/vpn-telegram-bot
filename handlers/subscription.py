@@ -13,9 +13,9 @@ async def choose_payment_method(callback: CallbackQuery):
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=texts[lang]["pay_telegram"], callback_data="pay_telegram")],
-        [InlineKeyboardButton(text="Bank Card [RU]", callback_data="bank_card")],  # 👈 Добавляем кнопку Bank Card
-        [InlineKeyboardButton(text=texts[lang]["back"], callback_data="back_lang")],
-        [InlineKeyboardButton(text="Bank Card [RU]", callback_data="paypal_wallet")],
+        [InlineKeyboardButton(text="🇷🇺 Bank Card [RU]", callback_data="bank_card")],  # 👈 Добавляем кнопку Bank Card
+        [InlineKeyboardButton(text="PayPal", callback_data="paypal_wallet")],
+        [InlineKeyboardButton(text=texts[lang]["back"], callback_data="back_lang")]
     ])
 
     await callback.message.edit_text(
