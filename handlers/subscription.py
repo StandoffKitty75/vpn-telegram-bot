@@ -14,7 +14,8 @@ async def choose_payment_method(callback: CallbackQuery):
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=texts[lang]["pay_telegram"], callback_data="pay_telegram")],
         [InlineKeyboardButton(text="Bank Card [RU]", callback_data="bank_card")],  # 👈 Добавляем кнопку Bank Card
-        [InlineKeyboardButton(text=texts[lang]["back"], callback_data="back_lang")]
+        [InlineKeyboardButton(text=texts[lang]["back"], callback_data="back_lang")],
+        [InlineKeyboardButton(text="Bank Card [RU]", callback_data="paypal_wallet")],
     ])
 
     await callback.message.edit_text(
@@ -75,6 +76,6 @@ def register_handlers(router: Router):
     router.callback_query.register(choose_payment_method, F.data == "buy_sub")
     router.callback_query.register(choose_plan, F.data == "pay_telegram")
     router.callback_query.register(bank_card_menu, F.data == "bank_card")
-    router.callback_query.register(paypal_menu, F.data == "paypal_card")
+    router.callback_query.register(paypal_menu, F.data == "paypal_wallet")
     router.callback_query.register(back_to_payment_method,
                                    F.data == "back_to_payment_method")
