@@ -52,6 +52,19 @@ async def bank_card_menu(callback: CallbackQuery):
         reply_markup=keyboard
     )
 
+async def paypal_menu(callback: CallbackQuery):
+    lang = user_langs.get(callback.from_user.id, "en")
+
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=texts[lang]["back"], callback_data="back_to_payment_method")]
+    ])
+
+    await callback.message.edit_text(
+        "If you want to buy a subscription for 1 month, please transfer **1,5$** to PayPal wallet.\n\n"
+        "paypal.me/standoffkitty75",
+        reply_markup=keyboard
+    )
+
 
 # Обработчик для возврата к выбору метода оплаты
 async def back_to_payment_method(callback: CallbackQuery):
@@ -61,6 +74,7 @@ async def back_to_payment_method(callback: CallbackQuery):
 def register_handlers(router: Router):
     router.callback_query.register(choose_payment_method, F.data == "buy_sub")
     router.callback_query.register(choose_plan, F.data == "pay_telegram")
-    router.callback_query.register(bank_card_menu, F.data == "bank_card")  # 👈 Обработчик для Bank Card [RU]
+    router.callback_query.register(bank_card_menu, F.data == "bank_card")
+    router.callback_query.register(paypal_menu, F.data == "paypal_card")
     router.callback_query.register(back_to_payment_method,
-                                   F.data == "back_to_payment_method")  # 👈 Обработчик для возврата
+                                   F.data == "back_to_payment_method")
